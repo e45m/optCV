@@ -7,7 +7,10 @@ load_dotenv()
 app = Flask(__name__, static_folder='public')
 
 API_KEY = os.getenv('GEMINI_API_KEY')
-GEMINI_URL = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={API_KEY}'
+GEMINI_URL = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}'
+
+
+
 
 @app.route('/')
 def index():
