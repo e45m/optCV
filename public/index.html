@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consultas Laborales con IA</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+    textarea { width: 100%; height: 120px; }
+    select, input { width: 100%; padding: 8px; margin: 10px 0; }
+    button { padding: 10px 20px; }
+    .respuesta { white-space: pre-wrap; background: #f9f9f9; padding: 15px; margin-top: 20px; border: 1px solid #ccc; border-radius: 6px; }
+  </style>
+</head>
+<body>
+
+  <h1>Consultas Laborales con Gemini</h1>
+
+  <label for="cargo">Cargo:</label>
+  <input type="text" id="cargo" placeholder="Ej: Analista de Datos">
+
+  <label for="empresa">Empresa:</label>
+  <input type="text" id="empresa" placeholder="Ej: Google">
+
+  <label for="ciudad">Ciudad:</label>
+  <input type="text" id="ciudad" placeholder="Ej: Buenos Aires">
+
+  <label for="pregunta">Seleccioná una consulta:</label>
+  <select id="pregunta">
+    <option value="1">1. Optimización de CV</option>
+    <option value="2">2. Preparación método STAR</option>
+    <option value="3">3. Investigación previa</option>
+    <option value="4">4. Preparación técnica</option>
+    <option value="5">5. Diferenciación estratégica</option>
+    <option value="6">6. Negociación salarial</option>
+  </select>
+
+  <button onclick="enviarConsulta()">Enviar consulta</button>
+
+  <div class="respuesta" id="respuesta"></div>
+
+  <script>
+    const plantillas = {
+      1: `Analiza mi CV actual para el puesto de [cargo]. Identifica áreas de mejora considerando: palabras clave del sector ausentes, logros que necesitan cuantificación, habilidades técnicas faltantes y estructura general. Compara con la descripción del puesto y sugiere modificaciones específicas. Prioriza los elementos que generarían mayor impacto y elimina contenido que no aporta valor. Incluye ejemplos de frases optimizadas usando verbos de acción potentes y métricas concretas.`,
+
+      2: `Analiza mi experiencia y ayúdame a preparar 3 historias usando el método STAR para entrevistas: un proyecto exitoso, un conflicto resuelto y un fracaso superado. Para cada historia, explícame cómo estructurar: la SITUACIÓN inicial, la TAREA que enfrenté, las ACCIONES que tomé y los RESULTADOS medibles que obtuve. Incluye frases de transición y momentos clave para mantener cada historia bajo 2 minutos.`,
+
+      3: `Analiza la empresa [empresa] y su posición actual en el mercado. Identifica sus valores principales, últimos logros, retos del sector y noticias relevantes de los últimos 6 meses. Destaca elementos que pueda mencionar en una entrevista para demostrar un interés genuino. Ten en cuenta el CV que me ayudaste a mejorar para conectar mi bagaje con la industria, cargo y empresa en cuestión.`,
+
+      4: `Genera una simulación realista de entrevista técnica para el puesto de [cargo]. Incluye preguntas específicas del sector, casos prácticos y situaciones complejas que podría enfrentar. Evalúa cada respuesta y sugiere mejoras. Según el CV que te di, evalúa posibles "gaps" y sugiere cómo solucionarlos.`,
+
+      5: `¿Cómo puedo destacar de forma única para el puesto de [cargo] en [empresa]? Analiza el mercado actual y sugiere ángulos innovadores para presentar mi experiencia. Identifica elementos distintivos que me separen del candidato promedio.`,
+
+      6: `Basado en el mercado de [ciudad] para el puesto de [cargo], ¿cuál es el rango salarial competitivo actual? Desarrolla una estrategia de negociación que incluya beneficios no monetarios y puntos de inflexión clave.`
+    };
+
+    function enviarConsulta() {
+      const cargo = document.getElementById("cargo").value || "[cargo]";
+      const empresa = document.getElementById("empresa").value || "[empresa]";
+      const ciudad = document.getElementById("ciudad").value || "[ciudad]";
+      const preguntaSeleccionada = document.getElementById("pregunta").value;
+
+      let prompt = plantillas[preguntaSeleccionada]
+        .replace(/\[cargo\]/g, cargo)
+        .replace(/\[empresa\]/g, empresa)
+        .replace(/\[ciudad\]/g, ciudad);
+
+      fetch("/consulta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const salida = data.respuesta || data.error || "Sin respuesta.";
+        document.getElementById("respuesta").textContent = salida;
+      })
+      .catch(err => {
+        document.getElementById("respuesta").textContent = "Error de conexión: " + err;
+      });
+    }
+  </script>
+
+</body>
+</html>
