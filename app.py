@@ -1,45 +1,40 @@
 from flask import Flask, request, jsonify, send_from_directory
-from dotenv import load_dotenv
 import os
 import requests
+from dotenv import load_dotenv
 
 load_dotenv()
+app = Flask(__name__, static_folder='public')
 
-app = Flask(__name__, static_folder="public", static_url_path="")
+API_KEY = os.getenv('GEMINI_API_KEY')
+GEMINI_URL = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={API_KEY}'
 
-API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}"
-
-@app.route("/")
+@app.route('/')
 def index():
-    return send_from_directory("public", "index.html")
+    return send_from_directory('public', 'index.html')
 
-@app.route("/consulta", methods=["POST"])
+@app.route('/consulta', methods=['POST'])
 def consulta():
-    data = request.get_json()
-    prompt = data.get("prompt", "")
+    data = request.json
+    prompt = data.get('prompt', '')
 
-    body = {
+    payload = {
         "contents": [
             {
                 "parts": [
-                    {"text": prompt}
+                    {
+                        "text": prompt
+                    }
                 ]
             }
         ]
     }
 
-    headers = {
-        "Content-Type": "application/json"
-    }
-
     try:
-        response = requests.post(GEMINI_URL, headers=headers, json=body)
+        response = requests.post(GEMINI_URL, json=payload)
         response.raise_for_status()
-        respuesta = response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        return jsonify({"respuesta": respuesta})
+        resultado = response.json()
+        texto = resultado.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "Sin respuesta.")
+        return jsonify({"respuesta": texto})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(debug=True)
+        return jsonify({"error":
