@@ -8,7 +8,7 @@ load_dotenv()
 app = Flask(__name__, static_folder="public", static_url_path="")
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={API_KEY}"
+GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}"
 
 @app.route("/")
 def index():
@@ -36,7 +36,7 @@ def consulta():
     try:
         response = requests.post(GEMINI_URL, headers=headers, json=body)
         response.raise_for_status()
-        respuesta = response.json().get("candidates", [])[0]["content"]["parts"][0]["text"]
+        respuesta = response.json()["candidates"][0]["content"]["parts"][0]["text"]
         return jsonify({"respuesta": respuesta})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
