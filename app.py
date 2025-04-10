@@ -37,4 +37,4 @@ def consulta():
         texto = resultado.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "Sin respuesta.")
         return jsonify({"respuesta": texto})
     except Exception as e:
-        return jsonify({"error":
+        return jsonify({"error": str(e)}), 500
