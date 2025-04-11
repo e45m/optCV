@@ -27,7 +27,7 @@
   <label for="cv">Pegá tu hoja de vida (CV):</label>
   <textarea id="cv" placeholder="Soy ingeniero de sistemas con 5 años de experiencia..."></textarea>
 
-  <label for="pregunta">Seleccioná una consulta:</label>
+<!--  <label for="pregunta">Seleccioná una consulta:</label>
   <select id="pregunta">
     <option value="1">1. Optimización de CV</option>
     <option value="2">2. Preparación método STAR</option>
@@ -35,7 +35,7 @@
     <option value="4">4. Preparación técnica</option>
     <option value="5">5. Diferenciación estratégica</option>
     <option value="6">6. Negociación salarial</option>
-  </select>
+  </select>-->
 
   <button onclick="enviarConsulta()">Enviar consulta</button>
 
@@ -56,14 +56,18 @@
       const empresa = document.getElementById("empresa").value || "[empresa]";
       const ciudad = document.getElementById("ciudad").value || "[ciudad]";
       const cv = document.getElementById("cv").value || "";
-      const preguntaSeleccionada = document.getElementById("pregunta").value;
+      // const preguntaSeleccionada = document.getElementById("pregunta").value;
 
-      let prompt = plantillas[preguntaSeleccionada]
+
+      let prompt =   "1: Analiza mi CV actual para el puesto de [cargo]. Identifica áreas de mejora considerando: palabras clave del sector ausentes, logros que necesitan cuantificación, habilidades técnicas faltantes y estructura general. Compara con la descripción del puesto y sugiere modificaciones específicas. Prioriza los elementos que generarían mayor impacto y elimina contenido que no aporta valor. Incluye ejemplos de frases optimizadas usando verbos de acción potentes y métricas concretas.,\n  2: Analiza mi experiencia y ayúdame a preparar 3 historias usando el método STAR para entrevistas: un proyecto exitoso, un conflicto resuelto y un fracaso superado. Para cada historia, explícame cómo estructurar: la SITUACIÓN inicial, la TAREA que enfrenté, las ACCIONES que tomé y los RESULTADOS medibles que obtuve. Incluye frases de transición y momentos clave para mantener cada historia bajo 2 minutos., \n  3: Analiza la empresa [empresa] y su posición actual en el mercado. Identifica sus valores principales, últimos logros, retos del sector y noticias relevantes de los últimos 6 meses. Destaca elementos que pueda mencionar en una entrevista para demostrar un interés genuino. Ten en cuenta el CV que te ayudé a mejorar para conectar mi bagaje con la industria, cargo y empresa en cuestión., \n   4: Genera una simulación realista de entrevista técnica para el puesto de [cargo]. Incluye preguntas específicas del sector, casos prácticos y situaciones complejas que podría enfrentar. Evalúa cada respuesta y sugiere mejoras. Según el CV que te di, evalúa posibles gaps y sugiere cómo solucionarlos.,\n 5: ¿Cómo puedo destacar de forma única para el puesto de [cargo] en [empresa]? Analiza el mercado actual y sugiere ángulos innovadores para presentar mi experiencia. Identifica elementos distintivos que me separen del candidato promedio., \n 6: Basado en el mercado de [ciudad] para el puesto de [cargo], ¿cuál es el rango salarial competitivo actual? Desarrolla una estrategia de negociación que incluya beneficios no monetarios y puntos de inflexión clave."
+
+      // let prompt = plantillas[preguntaSeleccionada]
         .replace(/\[cargo\]/g, cargo)
         .replace(/\[empresa\]/g, empresa)
         .replace(/\[ciudad\]/g, ciudad);
 
-      const contexto = `Este es mi currículum (hoja de vida):\n\n${cv}\n\nPor favor, tenlo en cuenta para responder la siguiente consulta:\n\n${prompt}`;
+      const contexto = `Este es mi currículum (hoja de vida):\n\n${cv}\n\nPor favor, tenlo en cuenta para responder las siguientes consultas:\n\n${prompt}
+      Genera solo texto limpio sin marcas de formato. Responde en el orden que se te piden las consultas al principio de cada consulta coloca titulo introductorio en forma de informe serio. Cada respuesta debe tener máximo 512 paralabras, al finalizar casa consulta deja tres espacios o saltos para separar el texto. Responde como una consultora altamente experimenda como asesora en imagen y recursos humanos.`;
 
       fetch("/consulta", {
         method: "POST",
@@ -82,4 +86,9 @@
   </script>
 
 </body>
+    <div class="download-buttons">
+
+        <a href="{{url_for('download_word') }}" class="btn">Descargar Informe Word</a>
+    </div>
+
 </html>
