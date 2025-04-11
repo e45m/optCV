@@ -29,11 +29,28 @@ GEMINI_URL = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.
 
 texto_global = ''
 
+ARCHIVO_CONTADOR = 'visitas.txt'
+
+def leer_visitas():
+    if not os.path.exists(ARCHIVO_CONTADOR):
+        with open(ARCHIVO_CONTADOR, 'w') as f:
+            f.write('0')
+    with open(ARCHIVO_CONTADOR, 'r') as f:
+        return int(f.read())
+
+def guardar_visitas(valor):
+    with open(ARCHIVO_CONTADOR, 'w') as f:
+        f.write(str(valor))
+
 # @app.route('/', methods=['GET', 'POST'])
 @app.route('/')
 def index():
     # return send_from_directory('public', 'index.html')
-    return render_template ('index.html')
+    visitas = leer_visitas()
+    visitas += 1
+    guardar_visitas(visitas)
+    return render_template ('index.html',visitas=visitas)
+
 
 
 @app.route('/consulta', methods=['POST'])
