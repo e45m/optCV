@@ -63,7 +63,7 @@ def incrementar_visitas():
 @app.route('/')
 def index():
     # return send_from_directory('public', 'index.html')
-    visitas = visitas = incrementar_visitas()
+    visitas = incrementar_visitas()
 
     return render_template ('index.html',visitas=visitas)
 
