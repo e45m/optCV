@@ -35,6 +35,26 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 def get_connection():
     return psycopg2.connect(DATABASE_URL)
 
+
+
+@app.route('/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ', methods=['POST'])
+def reset_visitas():
+def reset_visitas():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("DROP TABLE IF EXISTS visitas;")
+            cur.execute("""
+                CREATE TABLE visitas (
+                    id SERIAL PRIMARY KEY,
+                    contador INTEGER NOT NULL
+                );
+            """)
+            cur.execute("INSERT INTO visitas (contador) VALUES (0);")
+        conn.commit()
+    return "Base de datos reiniciada."
+
+
+
 def init_db():
     with get_connection() as conn:
         with conn.cursor() as cur:
