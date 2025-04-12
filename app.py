@@ -39,7 +39,6 @@ def get_connection():
 
 @app.route('/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ', methods=['POST'])
 def reset_visitas():
-def reset_visitas():
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("DROP TABLE IF EXISTS visitas;")
