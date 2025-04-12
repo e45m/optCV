@@ -57,35 +57,13 @@ def incrementar_visitas():
         conn.commit()
     return visitas
 
-def inicializar_base():
-    conn = psycopg2.connect(os.getenv("DATABASE_URL"))
-    conn.autocommit = True  # Necesario para CREATE TABLE fuera de una transacción
-    cur = conn.cursor()
 
-    # Crea la tabla si no existe
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS visitas (
-        id SERIAL PRIMARY KEY,
-        contador INTEGER NOT NULL DEFAULT 0
-    );
-    """)
-
-    # Asegura que haya al menos una fila
-    cur.execute("SELECT COUNT(*) FROM visitas;")
-    if cur.fetchone()[0] == 0:
-        cur.execute("INSERT INTO visitas (contador) VALUES (0);")
-
-    cur.close()
-    conn.close()
-
-@app.before_first_request
-def init_on_start():
-    inicializar_base()
 
 # @app.route('/', methods=['GET', 'POST'])
 @app.route('/')
 def index():
     # return send_from_directory('public', 'index.html')
+    init_db()
     visitas = incrementar_visitas()
 
     return render_template ('index.html',visitas=visitas)
@@ -163,6 +141,4 @@ def download_word():
 
 
 if __name__ == '__main__':
-    inicializar_base()
     app.run(debug=True)
-
