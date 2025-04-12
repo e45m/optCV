@@ -56,7 +56,7 @@
       .replace(/\[ciudad\]/g, ciudad);
 
       const contexto = `Este es mi currículum (hoja de vida):\n\n${cv}\n\nTenlo en cuenta para responder las siguientes solicitudes:\n\n${prompt}\n\n\
-      Genera solo texto limpio y sin marcas de formato. Responde en el orden indicado. Encabeza cada sección con un título profesional. Limita cada respuesta a un máximo de 512 palabras. Separa cada respuesta con tres saltos de línea. Redacta como una firma consultora de alto nivel, especializada en imagen profesional y recursos humanos.-Si el CV no esta en español responde el idioma que este el CV`;
+      Genera solo texto limpio y sin marcas de formato. Responde en el orden indicado. Encabeza cada sección con un título profesional. Limita cada respuesta a un máximo de 512 palabras. Separa cada respuesta con tres saltos de línea. Redacta como una firma consultora de alto nivel, especializada en imagen profesional y recursos humanos.Analyze the provided CV. Analiza el CV. Si no está en español, indica el idioma en el que está escrito y responde en ese idioma.`;
 
       fetch("/consulta", {
         method: "POST",
