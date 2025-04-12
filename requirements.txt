@@ -3,3 +3,4 @@ requests
 python-dotenv
 gunicorn
 python-docx
+psycopg2-binary

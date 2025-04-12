@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_from_directory, send_file , rend
 import os
 import requests
 from dotenv import load_dotenv
+import psycopg2
 
 
 
@@ -29,26 +30,41 @@ GEMINI_URL = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.
 
 texto_global = ''
 
-ARCHIVO_CONTADOR = 'visitas.txt'
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-def leer_visitas():
-    if not os.path.exists(ARCHIVO_CONTADOR):
-        with open(ARCHIVO_CONTADOR, 'w') as f:
-            f.write('0')
-    with open(ARCHIVO_CONTADOR, 'r') as f:
-        return int(f.read())
+def get_connection():
+    return psycopg2.connect(DATABASE_URL)
 
-def guardar_visitas(valor):
-    with open(ARCHIVO_CONTADOR, 'w') as f:
-        f.write(str(valor))
+def init_db():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS visitas (
+                    id SERIAL PRIMARY KEY,
+                    contador INTEGER NOT NULL
+                );
+            """)
+            cur.execute("SELECT COUNT(*) FROM visitas;")
+            if cur.fetchone()[0] == 0:
+                cur.execute("INSERT INTO visitas (contador) VALUES (0);")
+        conn.commit()
+
+def incrementar_visitas():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("UPDATE visitas SET contador = contador + 1 RETURNING contador;")
+            visitas = cur.fetchone()[0]
+        conn.commit()
+    return visitas
+
+
 
 # @app.route('/', methods=['GET', 'POST'])
 @app.route('/')
 def index():
     # return send_from_directory('public', 'index.html')
-    visitas = leer_visitas()
-    visitas += 1
-    guardar_visitas(visitas)
+    visitas = visitas = incrementar_visitas()
+
     return render_template ('index.html',visitas=visitas)
 
 
