@@ -15,41 +15,25 @@
 
   <h1>Consultas Laborales con Gemini</h1>
 
-  <label for="cargo">Cargo:</label>
+  <label for="cargo">Cargo/Position:</label>
   <input type="text" id="cargo" placeholder="Ej: Analista de Datos">
 
-  <label for="empresa">Empresa:</label>
+  <label for="empresa">Empresa/Company:</label>
   <input type="text" id="empresa" placeholder="Ej: Google">
 
-  <label for="ciudad">Ciudad:</label>
+  <label for="ciudad">Ciudad/City:</label>
   <input type="text" id="ciudad" placeholder="Ej: Buenos Aires">
 
-  <label for="cv">Pegá tu hoja de vida (CV):</label>
+  <label for="cv">Pegá tu hoja de vida/Paste your CV:</label>
   <textarea id="cv" placeholder="Soy ingeniero de sistemas con 5 años de experiencia..."></textarea>
 
-<!--  <label for="pregunta">Seleccioná una consulta:</label>
-  <select id="pregunta">
-    <option value="1">1. Optimización de CV</option>
-    <option value="2">2. Preparación método STAR</option>
-    <option value="3">3. Investigación previa</option>
-    <option value="4">4. Preparación técnica</option>
-    <option value="5">5. Diferenciación estratégica</option>
-    <option value="6">6. Negociación salarial</option>
-  </select>-->
 
-  <button onclick="enviarConsulta()">Enviar consulta</button>
+  <button onclick="enviarConsulta()">Enviar consulta/Summit</button>
 
   <div class="respuesta" id="respuesta"></div>
 
   <script>
-    const plantillas = {
-      1: `Analiza mi CV actual para el puesto de [cargo]. Identifica áreas de mejora considerando: palabras clave del sector ausentes, logros que necesitan cuantificación, habilidades técnicas faltantes y estructura general. Compara con la descripción del puesto y sugiere modificaciones específicas. Prioriza los elementos que generarían mayor impacto y elimina contenido que no aporta valor. Incluye ejemplos de frases optimizadas usando verbos de acción potentes y métricas concretas.`,
-      2: `Analiza mi experiencia y ayúdame a preparar 3 historias usando el método STAR para entrevistas: un proyecto exitoso, un conflicto resuelto y un fracaso superado. Para cada historia, explícame cómo estructurar: la SITUACIÓN inicial, la TAREA que enfrenté, las ACCIONES que tomé y los RESULTADOS medibles que obtuve. Incluye frases de transición y momentos clave para mantener cada historia bajo 2 minutos.`,
-      3: `Analiza la empresa [empresa] y su posición actual en el mercado. Identifica sus valores principales, últimos logros, retos del sector y noticias relevantes de los últimos 6 meses. Destaca elementos que pueda mencionar en una entrevista para demostrar un interés genuino. Ten en cuenta el CV que te ayudé a mejorar para conectar mi bagaje con la industria, cargo y empresa en cuestión.`,
-      4: `Genera una simulación realista de entrevista técnica para el puesto de [cargo]. Incluye preguntas específicas del sector, casos prácticos y situaciones complejas que podría enfrentar. Evalúa cada respuesta y sugiere mejoras. Según el CV que te di, evalúa posibles "gaps" y sugiere cómo solucionarlos.`,
-      5: `¿Cómo puedo destacar de forma única para el puesto de [cargo] en [empresa]? Analiza el mercado actual y sugiere ángulos innovadores para presentar mi experiencia. Identifica elementos distintivos que me separen del candidato promedio.`,
-      6: `Basado en el mercado de [ciudad] para el puesto de [cargo], ¿cuál es el rango salarial competitivo actual? Desarrolla una estrategia de negociación que incluya beneficios no monetarios y puntos de inflexión clave.`
-    };
+
 
     function enviarConsulta() {
       const cargo = document.getElementById("cargo").value || "[cargo]";
@@ -59,15 +43,20 @@
       // const preguntaSeleccionada = document.getElementById("pregunta").value;
 
 
-      let prompt =   "1: Analiza mi CV actual para el puesto de [cargo]. Identifica áreas de mejora considerando: palabras clave del sector ausentes, logros que necesitan cuantificación, habilidades técnicas faltantes y estructura general. Compara con la descripción del puesto y sugiere modificaciones específicas. Prioriza los elementos que generarían mayor impacto y elimina contenido que no aporta valor. Incluye ejemplos de frases optimizadas usando verbos de acción potentes y métricas concretas.,\n  2: Analiza mi experiencia y ayúdame a preparar 3 historias usando el método STAR para entrevistas: un proyecto exitoso, un conflicto resuelto y un fracaso superado. Para cada historia, explícame cómo estructurar: la SITUACIÓN inicial, la TAREA que enfrenté, las ACCIONES que tomé y los RESULTADOS medibles que obtuve. Incluye frases de transición y momentos clave para mantener cada historia bajo 2 minutos., \n  3: Analiza la empresa [empresa] y su posición actual en el mercado. Identifica sus valores principales, últimos logros, retos del sector y noticias relevantes de los últimos 6 meses. Destaca elementos que pueda mencionar en una entrevista para demostrar un interés genuino. Ten en cuenta el CV que te ayudé a mejorar para conectar mi bagaje con la industria, cargo y empresa en cuestión., \n   4: Genera una simulación realista de entrevista técnica para el puesto de [cargo]. Incluye preguntas específicas del sector, casos prácticos y situaciones complejas que podría enfrentar. Evalúa cada respuesta y sugiere mejoras. Según el CV que te di, evalúa posibles gaps y sugiere cómo solucionarlos.,\n 5: ¿Cómo puedo destacar de forma única para el puesto de [cargo] en [empresa]? Analiza el mercado actual y sugiere ángulos innovadores para presentar mi experiencia. Identifica elementos distintivos que me separen del candidato promedio., \n 6: Basado en el mercado de [ciudad] para el puesto de [cargo], ¿cuál es el rango salarial competitivo actual? Desarrolla una estrategia de negociación que incluya beneficios no monetarios y puntos de inflexión clave."
+      let prompt =
+      "1: Análisis del CV para el puesto de [cargo]. Revisa mi currículum actual en relación con el puesto indicado. Identifica oportunidades de mejora, incluyendo: palabras clave relevantes del sector que faltan, logros que deben cuantificarse, habilidades técnicas ausentes y posibles mejoras en la estructura general. Compara mi perfil con la descripción del puesto y sugiere cambios concretos. Prioriza los elementos de alto impacto y elimina contenido irrelevante. Proporciona ejemplos de frases mejoradas con verbos de acción fuertes y métricas específicas.\n\n\
+      2: Preparación de historias STAR para entrevistas. Basado en mi experiencia, ayúdame a construir tres historias siguiendo el método STAR: un proyecto exitoso, un conflicto que resolví y un fracaso que superé. Para cada historia, estructura claramente la SITUACIÓN, la TAREA, las ACCIONES y los RESULTADOS obtenidos. Incluye frases de transición efectivas y momentos clave para asegurar que cada historia no exceda los 2 minutos de duración.\n\n\
+      3: Análisis estratégico de la empresa [empresa]. Investiga y resume la posición actual de esta empresa en el mercado. Destaca sus valores fundamentales, logros recientes, desafíos del sector y noticias relevantes de los últimos 6 meses. Sugiere aspectos clave que pueda mencionar en una entrevista para demostrar interés genuino. Conecta mi perfil con la industria, el puesto y los valores de la empresa.\n\n\
+      4: Simulación de entrevista técnica para el puesto de [cargo]. Crea una entrevista técnica simulada con preguntas específicas del sector, casos prácticos y situaciones complejas que podría enfrentar en el cargo. Evalúa mis posibles respuestas con base en mi CV y señala áreas a mejorar. Identifica brechas potenciales en mi perfil y sugiere cómo cubrirlas.\n\n\
+      5: Diferenciación estratégica para destacar como candidato. ¿Cómo puedo posicionarme de manera única para este puesto en [empresa]? Analiza las tendencias del mercado y sugiere enfoques innovadores para presentar mi experiencia. Identifica factores diferenciadores frente al candidato promedio y cómo comunicar esas fortalezas efectivamente.\n\n\
+      6: Estrategia de negociación salarial en [ciudad]. ¿Cuál es el rango salarial competitivo actual para el puesto de [cargo] en [ciudad]? Diseña una estrategia de negociación que incluya beneficios no monetarios y puntos clave de inflexión para maximizar la propuesta total de valor."
 
-      // let prompt = plantillas[preguntaSeleccionada]
-        .replace(/\[cargo\]/g, cargo)
-        .replace(/\[empresa\]/g, empresa)
-        .replace(/\[ciudad\]/g, ciudad);
+      .replace(/\[cargo\]/g, cargo)
+      .replace(/\[empresa\]/g, empresa)
+      .replace(/\[ciudad\]/g, ciudad);
 
-      const contexto = `Este es mi currículum (hoja de vida):\n\n${cv}\n\nPor favor, tenlo en cuenta para responder las siguientes consultas:\n\n${prompt}
-      Genera solo texto limpio sin marcas de formato. Responde en el orden que se te piden las consultas al principio de cada consulta coloca titulo introductorio en forma de informe serio. Cada respuesta debe tener máximo 512 paralabras, al finalizar casa consulta deja tres espacios o saltos para separar el texto. Responde como una consultora altamente experimenda como asesora en imagen y recursos humanos.`;
+      const contexto = `Este es mi currículum (hoja de vida):\n\n${cv}\n\nTenlo en cuenta para responder las siguientes solicitudes:\n\n${prompt}\n\n\
+      Genera solo texto limpio y sin marcas de formato. Responde en el orden indicado. Encabeza cada sección con un título profesional. Limita cada respuesta a un máximo de 512 palabras. Separa cada respuesta con tres saltos de línea. Redacta como una firma consultora de alto nivel, especializada en imagen profesional y recursos humanos.-Si el CV no esta en español responde el idioma que este el CV`;
 
       fetch("/consulta", {
         method: "POST",
@@ -88,7 +77,7 @@
 </body>
     <div class="download-buttons">
 
-        <a href="{{url_for('download_word') }}" class="btn">Descargar Informe Word</a>
+        <a href="{{url_for('download_word') }}" class="btn">Descargar/Download Word</a>
     </div>
       <div class="contador">
      <p> {{ visitas }}</p>

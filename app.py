@@ -121,7 +121,7 @@ def download_word():
     # section.page_height = new_height
     global texto_global
 
-    doc.add_heading('Informe de Optmización de CV con IA', 0)
+    doc.add_heading('Informe de Optimización de CV con IA', 0)
 
     doc.add_paragraph(texto_global)
 
