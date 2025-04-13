@@ -35,6 +35,13 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 def get_connection():
     return psycopg2.connect(DATABASE_URL)
 
+@app.route('/api/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ2', methods=['GET'])
+def obtener_visitas():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT contador FROM visitas LIMIT 1;")
+            visitas = cur.fetchone()[0]
+    return {'visitas': visitas}, 200
 
 
 @app.route('/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ', methods=['POST'])
