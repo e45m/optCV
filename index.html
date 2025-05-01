@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consultas Laborales con IA</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+    textarea { width: 100%; height: 120px; }
+    select, input { width: 100%; padding: 8px; margin: 10px 0; }
+    button { padding: 10px 20px; }
+    .respuesta { white-space: pre-wrap; background: #f9f9f9; padding: 15px; margin-top: 20px; border: 1px solid #ccc; border-radius: 6px; }
+  </style>
+</head>
+<body>
+
+  <h1>Consultas Laborales con Gemini</h1>
+
+  <label for="cargo">Cargo/Position:</label>
+  <input type="text" id="cargo" placeholder="Ej: Analista de Datos">
+
+  <label for="empresa">Empresa/Company:</label>
+  <input type="text" id="empresa" placeholder="Ej: Google">
+
+  <label for="ciudad">Ciudad/City:</label>
+  <input type="text" id="ciudad" placeholder="Ej: Buenos Aires">
+
+  <label for="cv">Pegá tu hoja de vida/Paste your CV:</label>
+  <textarea id="cv" placeholder="Soy ingeniero de sistemas con 5 años de experiencia...\n "></textarea>
+
+
+  <button onclick="enviarConsulta()">Enviar consulta/Summit</button>
+
+  <div class="respuesta" id="respuesta"></div>
+
+  <script>
+
+
+    function enviarConsulta() {
+
+      url= 'https://optcv.onrender.com'
+      const cargo = document.getElementById("cargo").value || "[cargo]";
+      const empresa = document.getElementById("empresa").value || "[empresa]";
+      const ciudad = document.getElementById("ciudad").value || "[ciudad]";
+      const cv = document.getElementById("cv").value || "";
+      // const preguntaSeleccionada = document.getElementById("pregunta").value;
+
+
+        const datos = {
+        cargo: cargo,
+        empresa: empresa,
+        ciudad: ciudad,
+        cv: cv
+      };
+
+
+
+      fetch(`${url}/consulta`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify( datos )
+      })
+      .then(res => res.json())
+      .then(data => {
+        const salida = data.respuesta || data.error || "Sin respuesta.";
+        document.getElementById("respuesta").textContent = salida;
+      })
+      .catch(err => {
+        document.getElementById("respuesta").textContent = "Error de conexión: " + err;
+      });
+    }
+  </script>
+  <script>
+
+  function wu(){
+      url= 'https://optcv.onrender.com';
+      fetch(`${url}/wakeup`)
+      .then(res => res.json())
+      .then(data => {
+        const salida = data.respuesta || data.error || "ERROR";
+        document.getElementById("respuesta").textContent = salida;
+      })
+      .catch(err => {
+        document.getElementById("respuesta").textContent = "Error de conexión: " + err;
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() { wu();});
+
+  </script>
+
+</body>
+    <div class="download-buttons">
+
+        <a href="https://optcv.onrender.com/download-word" class="btn">Descargar/Download Word</a>
+    </div>
+
+
+</html>
