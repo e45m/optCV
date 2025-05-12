@@ -33,59 +33,59 @@ GEMINI_URL = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.
 ##############################
 
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-def get_connection():
-    return psycopg2.connect(DATABASE_URL)
-
-@app.route('/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ2', methods=['GET'])
-def obtener_visitas():
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT contador FROM visitas LIMIT 1;")
-            visitas = cur.fetchone()[0]
-    return {'visitas': visitas}, 200
-
-
-@app.route('/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ', methods=['POST'])
-def reset_visitas():
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("DROP TABLE IF EXISTS visitas;")
-            cur.execute("""
-                CREATE TABLE visitas (
-                    id SERIAL PRIMARY KEY,
-                    contador INTEGER NOT NULL
-                );
-            """)
-            cur.execute("INSERT INTO visitas (contador) VALUES (0);")
-        conn.commit()
-    return "Base de datos reiniciada."
-
-
-
-def init_db():
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("""
-                CREATE TABLE IF NOT EXISTS visitas (
-                    id SERIAL PRIMARY KEY,
-                    contador INTEGER NOT NULL
-                );
-            """)
-            cur.execute("SELECT COUNT(*) FROM visitas;")
-            if cur.fetchone()[0] == 0:
-                cur.execute("INSERT INTO visitas (contador) VALUES (0);")
-        conn.commit()
-
-def incrementar_visitas():
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("UPDATE visitas SET contador = contador + 1 RETURNING contador;")
-            visitas = cur.fetchone()[0]
-        conn.commit()
-    return visitas
-
-
+# DATABASE_URL = os.getenv("DATABASE_URL")
+# def get_connection():
+#     return psycopg2.connect(DATABASE_URL)
+#
+# @app.route('/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ2', methods=['GET'])
+# def obtener_visitas():
+#     with get_connection() as conn:
+#         with conn.cursor() as cur:
+#             cur.execute("SELECT contador FROM visitas LIMIT 1;")
+#             visitas = cur.fetchone()[0]
+#     return {'visitas': visitas}, 200
+#
+#
+# @app.route('/vX3zqMnAyB7gRtCH9fLdNpJE0WkTuhQ2xVaPiLsoY4cbUGjKeTwZ', methods=['POST'])
+# def reset_visitas():
+#     with get_connection() as conn:
+#         with conn.cursor() as cur:
+#             cur.execute("DROP TABLE IF EXISTS visitas;")
+#             cur.execute("""
+#                 CREATE TABLE visitas (
+#                     id SERIAL PRIMARY KEY,
+#                     contador INTEGER NOT NULL
+#                 );
+#             """)
+#             cur.execute("INSERT INTO visitas (contador) VALUES (0);")
+#         conn.commit()
+#     return "Base de datos reiniciada."
+#
+#
+#
+# def init_db():
+#     with get_connection() as conn:
+#         with conn.cursor() as cur:
+#             cur.execute("""
+#                 CREATE TABLE IF NOT EXISTS visitas (
+#                     id SERIAL PRIMARY KEY,
+#                     contador INTEGER NOT NULL
+#                 );
+#             """)
+#             cur.execute("SELECT COUNT(*) FROM visitas;")
+#             if cur.fetchone()[0] == 0:
+#                 cur.execute("INSERT INTO visitas (contador) VALUES (0);")
+#         conn.commit()
+#
+# def incrementar_visitas():
+#     with get_connection() as conn:
+#         with conn.cursor() as cur:
+#             cur.execute("UPDATE visitas SET contador = contador + 1 RETURNING contador;")
+#             visitas = cur.fetchone()[0]
+#         conn.commit()
+#     return visitas
+#
+#
 
 
 
@@ -111,7 +111,7 @@ def redirect_page():
 
 @app.route('/consulta', methods=['POST'])
 def consulta():
-    incrementar_visitas()
+    # incrementar_visitas()
     global texto_global
 
     data = request.get_json()
