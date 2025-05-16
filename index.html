@@ -17,17 +17,11 @@
   <meta property="og:url" content="https://e45m.github.io/optCV/" />
   <meta name="twitter:card" content="summary" />
 
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
-    textarea { width: 100%; height: 120px; }
-    select, input { width: 100%; padding: 8px; margin: 10px 0; }
-    button { padding: 10px 20px; }
-    .respuesta { white-space: pre-wrap; background: #f9f9f9; padding: 15px; margin-top: 20px; border: 1px solid #ccc; border-radius: 6px; }
-  </style>
+      <link rel="stylesheet" href="styles_1.css">
 </head>
 <body>
-
-  <h1>Consultas Laborales con Gemini</h1>
+   <div class="container">
+  <h1>Analisis de CV vs Cargo usando IA Gemini</h1>
 
   <label for="cargo">Cargo/Position:</label>
   <input type="text" id="cargo" placeholder="Ej: Analista de Datos">
@@ -39,7 +33,7 @@
   <input type="text" id="ciudad" placeholder="Ej: Buenos Aires">
 
   <label for="cv">Pegá tu hoja de vida/Paste your CV:</label>
-  <textarea id="cv" placeholder="Soy ingeniero de sistemas con 5 años de experiencia...\n "></textarea>
+  <textarea id="cv" style = "width: 100%; height: 120px;" placeholder="Soy ingeniero de sistemas con 5 años de experiencia...\n "></textarea>
 
 
   <button onclick="enviarConsulta()">Enviar consulta/Summit</button>
@@ -51,6 +45,7 @@
 
     function enviarConsulta() {
 
+      document.getElementById("respuesta").textContent = "Enviando la consulta, por favor esperar respuesta...";
       url= 'https://optcv.onrender.com'
       const cargo = document.getElementById("cargo").value || "[cargo]";
       const empresa = document.getElementById("empresa").value || "[empresa]";
@@ -101,12 +96,27 @@
   document.addEventListener('DOMContentLoaded', function() { wu();});
 
   </script>
-
+</div>
 </body>
-    <div class="download-buttons">
 
-        <a href="https://optcv.onrender.com/download-word" class="btn">Descargar/Download Word</a>
-    </div>
+
+        <a href="https://optcv.onrender.com/download-word" class="back-button">Descargar/Download Word</a>
+
+
+<!--      <div class="container"> -->
+
+        <!-- Botón para regresar al portafolio -->
+        <a href="https://e45m.github.io/portfolio/" class="back-button" target="_blank">Regresar al Portafolio</a>
+
+        <!-- Pie de página -->
+        <footer class="footer">
+            <p>
+                Esta página se publicó gracias a <a href="https://pages.github.com/" target="_blank">GitHub Pages</a> |
+                Conéctate conmigo en <a href="https://www.linkedin.com/in/efren-sandoval-mora-81585058/" target="_blank">LinkedIn</a>
+                Efrén Sandoval Mora (2025)
+            </p>
+        </footer>
+
 
 
 </html>
